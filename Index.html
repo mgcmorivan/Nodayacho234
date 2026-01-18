@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>野田屋町サミット2026 - 家計キャンバス＋家族の約束（完成版）</title>
+  <style>
+    :root {
+      --bg: #f4f5f8;
+      --bg-card: #ffffff;
+      --border-soft: #dde1ea;
+      --text-main: #1f2933;
+      --text-soft: #6b7280;
+      --accent: #2563eb;
+      --accent-soft: rgba(37, 99, 235, 0.08);
+      --accent-tag: #eef2ff;
+      --highlight: #e5f2ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Helvetica Neue", "Hiragino Sans", "ヒラギノ角ゴ ProN",
+        "YuGothic", "Yu Gothic", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
+      line-height: 1.6;
+    }
+
+    .page {
+      max-width: 1040px;
+      margin: 24px auto;
+      padding: 16px;
+    }
+
+    header.page-header {
+      margin-bottom: 20px;
+    }
+
+    .page-eyebrow {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      margin-bottom: 4px;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: var(--text-soft);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1.4fr 1.6fr;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .grid-full {
+      display: grid;
+      grid-template-columns: 1.4fr 1.6fr;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: 16px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 14px 36px rgba(15, 23, 42, 0.06);
+      border: 1px solid var(--border-soft);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 6px;
+    }
+
+    .card-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .card-tag {
+      font-size: 11px;
+      padding: 2px 8px;
+      border-radius: 999px;
+      background: var(--accent-tag);
+      color: var(--accent);
+    }
+
+    .card-note {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 8px;
+    }
+
+    .input-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .input-table th,
+    .input-table td {
+      border: 1px solid var(--border-soft);
+      padding: 5px 7px;
+      vertical-align: middle;
+    }
+
+    .input-table th {
+      background: #f3f4fa;
+      text-align: left;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+    .input-table td.label {
+      background: #fafbff;
+      width: 36%;
+      white-space: nowrap;
+    }
+
+    .input-table td input[type="number"],
+    .input-table td input[type="text"] {
+      width: 100%;
+      border-radius: 6px;
+      border: 1px solid #d1d5e5;
+      padding: 4px 6px;
+      font-size: 12px;
+      font-family: inherit;
+      outline: none;
+      background: #fff;
+    }
+
+    .input-table td input[type="number"]:focus,
+    .input-table td input[type="text"]:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+    }
+
+    .unit {
+      font-size: 11px;
+      color: var(--text-soft);
+      white-space: nowrap;
+    }
+
+    .hint {
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .total-cell {
+      background: #eef2ff;
+      font-weight: 600;
+    }
+
+    .total-value {
+      font-feature-settings: "tnum";
+    }
+
+    .stack {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .pill-note {
+      font-size: 11px;
+      background: #e5f2ff;
+      color: #1d4ed8;
+      padding: 6px 8px;
+      border-radius: 10px;
+      margin-top: 4px;
+    }
+
+    .checklist {
+      list-style: none;
+      margin-top: 6px;
+    }
+
+    .checklist li {
+      display: flex;
+      align-items: flex-start;
+      gap: 6px;
+      font-size: 12px;
+      margin-bottom: 4px;
+    }
+
+    .checklist input[type="checkbox"] {
+      margin-top: 2px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+      margin-bottom: 4px;
+    }
+
+    .textarea {
+      width: 100%;
+      min-height: 60px;
+      border-radius: 8px;
+      border: 1px solid #d1d5e5;
+      padding: 6px 8px;
+      font-size: 12px;
+      font-family: inherit;
+      resize: vertical;
+      outline: none;
+      background: #fff;
+    }
+
+    .textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px var(--accent-soft);
+    }
+
+    .small-note {
+      font-size: 11px;
+      color: var(--text-soft);
+      margin-top: 2px;
+    }
+
+    .divider-label {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--text-soft);
+      margin: 22px 0 4px;
+    }
+
+    .section-heading {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 2px;
+    }
+
+    .section-sub {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 4px;
+    }
+
+    .highlight-box {
+      margin-top: 10px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--highlight);
+      font-size: 12px;
+      color: #1d4ed8;
+    }
+
+    @media (max-width: 840px) {
+      .grid,
+      .grid-full {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .page {
+        padding: 12px;
+        margin: 12px auto 20px;
+      }
+
+      .page-title {
+        font-size: 20px;
+      }
+
+      .card {
+        border-radius: 12px;
+        padding: 14px 12px 12px;
+      }
+
+      .input-table th,
+      .input-table td {
+        font-size: 11px;
+        padding: 4px 5px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <header class="page-header">
+      <div class="page-eyebrow">NODAYACHO SUMMIT 2026</div>
+      <h1 class="page-title">野田屋町サミット2026</h1>
+      <p class="page-subtitle">
+        前半で「今のお金の流れ」をざっくり見える化して、後半で「家族の約束」と「親子の目標」をそろえるためのキャンバス。
+      </p>
+    </header>
+
+    <!-- 上段：全体像＋収入 -->
+    <div class="grid">
+      <!-- 全体バランス -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">月のバランス（ざっくり）</h2>
+          <div class="card-tag">overview</div>
+        </div>
+        <p class="card-note">
+          ここは「あとで自動的に埋まる」欄。収入・支出・貯蓄を入れたあとで、2人でバランスを確認する。
+        </p>
+
+        <table class="input-table">
+          <tbody>
+            <tr>
+              <td class="label">月間の合計手取り</td>
+              <td>
+                <span class="total-value" data-total="incomeSummary">0</span>
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">1. 収入の合計</td>
+            </tr>
+            <tr>
+              <td class="label">固定費の合計</td>
+              <td>
+                <span class="total-value" data-total="fixedSummary">0</span>
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">2. 固定費の合計</td>
+            </tr>
+            <tr>
+              <td class="label">変動費の合計</td>
+              <td>
+                <span class="total-value" data-total="variableSummary">0</span>
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">3. 生活費（変動費）の合計</td>
+            </tr>
+            <tr>
+              <td class="label">貯蓄・投資の合計</td>
+              <td>
+                <span class="total-value" data-total="savingInvestSummary">0</span>
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">4. 貯蓄・投資の合計</td>
+            </tr>
+            <tr>
+              <td class="label total-cell">ざっくり余り（自由に使える）</td>
+              <td class="total-cell">
+                <span class="total-value" data-total="remainder">0</span>
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">「このくらい余っているなら安心だね」を確認するゾーン</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pill-note">
+          見方の例：  
+          「余り」がプラスなら、どこに優先的にまわしたいか。  
+          マイナスなら、どこを“少しだけ”減らせそうかを一緒に考える。
+        </div>
+      </section>
+
+      <!-- 収入 -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">1. 毎月の収入</h2>
+          <div class="card-tag">income</div>
+        </div>
+        <p class="card-note">
+          慧・遥・その他の収入を入れて、「2人でどれくらい入ってきているか」の感覚をそろえるゾーン。
+        </p>
+
+        <table class="input-table">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>金額（月平均）</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label">慧の手取り（月）</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="income" />
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">毎月だいたい</td>
+            </tr>
+            <tr>
+              <td class="label">遥の手取り（月）</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="income" />
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">毎月だいたい</td>
+            </tr>
+            <tr>
+              <td class="label">その他の収入</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="income" />
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">ボーナス・副業などを12で割った目安</td>
+            </tr>
+            <tr>
+              <td class="label total-cell">月間の合計手取り</td>
+              <td class="total-cell">
+                <span class="total-value" data-total="income">0</span>
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">慧＋遥＋その他</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <!-- 下段：支出（固定＋変動）＋貯蓄 -->
+    <div class="grid" style="margin-top:14px;">
+      <!-- 支出（固定費＋変動費） -->
+      <section class="card">
+        <div class="stack">
+          <!-- 固定費 -->
+          <div>
+            <div class="card-header">
+              <h2 class="card-title">2. 毎月決まって出ていくお金（固定費）</h2>
+              <div class="card-tag">fixed</div>
+            </div>
+            <p class="card-note">
+              家賃・通信・保険など「毎月ほぼ同じ金額で出ていくもの」。まずは現状を知るための一覧。
+            </p>
+
+            <table class="input-table">
+              <thead>
+                <tr>
+                  <th>項目</th>
+                  <th>金額（月平均）</th>
+                  <th>メモ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="label">家賃・ローン返済</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="fixed" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="label">水道光熱費</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="fixed" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">電気・ガス・水道</td>
+                </tr>
+                <tr>
+                  <td class="label">通信費</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="fixed" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">スマホ・ネット回線など</td>
+                </tr>
+                <tr>
+                  <td class="label">保険料（生命・医療・学資など）</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="fixed" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="label">サブスク・会費</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="fixed" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">動画配信・クラウド・習い事の月謝など</td>
+                </tr>
+                <tr>
+                  <td class="label total-cell">固定費の合計</td>
+                  <td class="total-cell">
+                    <span class="total-value" data-total="fixed">0</span>
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">まずは「このくらいは毎月必要」と認識する</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 変動費 -->
+          <div>
+            <div class="card-header" style="margin-top:8px;">
+              <h2 class="card-title">3. 生活費（変動費）</h2>
+              <div class="card-tag">variable</div>
+            </div>
+            <p class="card-note">
+              月によって変動しやすい「生活コスト」。ざっくりでいいので、感覚を合わせておくゾーン。
+            </p>
+
+            <table class="input-table">
+              <thead>
+                <tr>
+                  <th>項目</th>
+                  <th>金額（月平均）</th>
+                  <th>メモ</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="label">食費</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="variable" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">外食を含めるかどうかは2人で決める</td>
+                </tr>
+                <tr>
+                  <td class="label">日用品・雑貨</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="variable" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="label">交通費</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="variable" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="label">教育・保育関連</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="variable" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">保育園・習い事・教材など</td>
+                </tr>
+                <tr>
+                  <td class="label">レジャー・交際費</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="variable" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">外食・旅行・イベントなど</td>
+                </tr>
+                <tr>
+                  <td class="label">その他（雑費）</td>
+                  <td>
+                    <input type="number" inputmode="decimal" data-group="variable" />
+                    <span class="unit">万円</span>
+                  </td>
+                  <td></td>
+                </tr>
+                <tr>
+                  <td class="label total-cell">変動費の合計</td>
+                  <td class="total-cell">
+                    <span class="total-value" data-total="variable">0</span>
+                    <span class="unit">万円</span>
+                  </td>
+                  <td class="hint">「使いすぎているかも？」を見るための目安</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- 貯蓄・投資 -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">4. 貯蓄・投資にまわしているお金</h2>
+          <div class="card-tag">saving & invest</div>
+        </div>
+        <p class="card-note">
+          「将来のために先にとっておいているお金」。ソバニ・NISA・iDeCoなどをまとめて確認する。
+        </p>
+
+        <table class="input-table">
+          <thead>
+            <tr>
+              <th>項目</th>
+              <th>金額（月平均）</th>
+              <th>メモ</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="label">普通預金への積立</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="savingInvest" />
+                <span class="unit">万円</span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="label">慧のNISA</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="savingInvest" />
+                <span class="unit">万円</span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="label">遥のNISA</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="savingInvest" />
+                <span class="unit">万円</span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="label">慧のソバニ</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="savingInvest" />
+                <span class="unit">万円</span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="label">遥のソバニ</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="savingInvest" />
+                <span class="unit">万円</span>
+              </td>
+              <td></td>
+            </tr>
+            <tr>
+              <td class="label">iDeCo・その他</td>
+              <td>
+                <input type="number" inputmode="decimal" data-group="savingInvest" />
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">学資保険などを含めてもOK</td>
+            </tr>
+            <tr>
+              <td class="label total-cell">貯蓄・投資の合計</td>
+              <td class="total-cell">
+                <span class="total-value" data-total="savingInvest">0</span>
+                <span class="unit">万円</span>
+              </td>
+              <td class="hint">「先にとっておいている分」の目安</td>
+            </tr>
+          </tbody>
+        </table>
+      </section>
+    </div>
+
+    <!-- 家族の約束・親子の目標 -->
+    <div class="divider-label">FAMILY AGREEMENTS</div>
+    <div class="section-heading">家族の約束と、親子の目標</div>
+    <div class="section-sub">
+      後半は「どうお金を使って、どんな家族でいたいか」の話。数字の話から少し離れて、価値観と約束をそろえる時間。
+    </div>
+
+    <div class="grid-full">
+      <!-- 左：親として／夫婦としての約束 -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">親として・夫婦としての約束</h2>
+          <div class="card-tag">for parents</div>
+        </div>
+        <p class="card-note">
+          「こういう家族でいたい」という土台。全部にチェックを入れる必要はなくて、「今の我が家」に合うものを選んでいく。
+        </p>
+
+        <div class="field-label">親として大事にしたいこと</div>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span>失敗しても責めず、「次どうしようか？」を一緒に考える。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>できたこと・がんばったことを、言葉にしてちゃんとほめる。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>一称の前で、お金や仕事の話をタブーにせず、できるだけオープンに話す。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>親も「うまくいかなかったこと」「反省していること」を正直に共有する。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>忙しい時期ほど、短くても「一緒に振り返る時間」をゼロにしない。</span>
+          </li>
+        </ul>
+
+        <div class="field-label">夫婦としての約束</div>
+        <ul class="checklist">
+          <li>
+            <input type="checkbox" />
+            <span>毎月◯日に、30分だけ家計と目標の話をする「家族サミット」を開く。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>しんどい月は、「今月はお休みしよっか」とお互い提案してOKにしておく。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>うまくいかなかったことは「失敗」ではなく、「次にどう変えるか」を話すきっかけにする。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>相手の使い方を一方的にジャッジしないで、「何を大事にしたい支出か」を聞いてみる。</span>
+          </li>
+          <li>
+            <input type="checkbox" />
+            <span>決めた約束は「一生守るルール」ではなく、「来年また一緒に見直すためのたたき台」として扱う。</span>
+          </li>
+        </ul>
+
+        <div class="field-label">我が家オリジナルの約束</div>
+        <textarea class="textarea" placeholder="例：月に1回は、家族で外食かテイクアウトを楽しむ　など"></textarea>
+        <div class="small-note">
+          思いついたタイミングで、1〜3個だけ書けばOK。途中で「やっぱり違うな」と思ったら、遠慮なく消して更新していく前提にしておく。
+        </div>
+      </section>
+    <!-- 親それぞれの成長行動 -->
+    <div class="divider-label">PARENTS GROWTH</div>
+    <div class="section-heading">慧と遥の「成長行動」メモ</div>
+    <div class="section-sub">
+      親も「仕事」と「プライベート」で、それぞれ小さな成長行動を持っておく。完璧を目指さず、「やれたら嬉しいこと」を書くスペース。
+    </div>
+
+    <div class="grid-full">
+      <!-- 慧の成長行動 -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">慧の成長行動</h2>
+          <div class="card-tag">for Kei</div>
+        </div>
+        <p class="card-note">
+          仕事とプライベート、それぞれで「今年こうなれたらいいな」「今月やってみたいこと」をゆるくメモしておくためのシート。
+        </p>
+
+        <div class="field-label">今年のテーマ（1つ）</div>
+        <textarea class="textarea" placeholder="例：仕事では「仕組み化する人になる」、プライベートでは「家族との時間を増やす」など。"></textarea>
+
+        <div class="field-label">今月やってみたいこと（仕事）</div>
+        <textarea class="textarea" placeholder="例：週に1回は、午前中に集中時間をブロックする　など。"></textarea>
+
+        <div class="field-label">今月やってみたいこと（プライベート）</div>
+        <textarea class="textarea" placeholder="例：月に◯回、一称と公園に行く／寝る前の読み聞かせを増やす　など。"></textarea>
+
+        <div class="field-label">できたこと・がんばったこと</div>
+        <textarea class="textarea" placeholder="月末に「ここはできた」「ここは頑張った」と感じたことを、ざっくりで1〜3個メモしておく。"></textarea>
+      </section>
+
+      <!-- 遥の成長行動 -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">遥の成長行動</h2>
+          <div class="card-tag">for Haruka</div>
+        </div>
+        <p class="card-note">
+          計画をガチガチにするためではなく、「やれたら嬉しいこと」を軽く書いておく場所。できなかった月があってもOKにしておく。
+        </p>
+
+        <div class="field-label">今年のテーマ（1つ）</div>
+        <textarea class="textarea" placeholder="例：自分のペースを大事にしながら、少しずつチャレンジを増やす　など。"></textarea>
+
+        <div class="field-label">今月やってみたいこと（仕事・家のこと）</div>
+        <textarea class="textarea" placeholder="例：1つだけ「今月これだけはやりたい」ことを書く。忙しい月は「休む」をテーマにしてもOK。"></textarea>
+
+        <div class="field-label">今月やってみたいこと（自分の時間）</div>
+        <textarea class="textarea" placeholder="例：月に◯回は1人の時間をつくる／趣味に15分だけ使う　など。"></textarea>
+
+        <div class="field-label">できたこと・がんばったこと</div>
+        <textarea class="textarea" placeholder="できた・できないよりも、「ここは自分なりに頑張れた」と感じたポイントを書いておく。"></textarea>
+
+        <div class="highlight-box">
+          これは「新しいノルマ」ではなく、遥が自分のペースで進んでいくためのメモ。  
+          できなかった月があっても、「じゃあ次はどうゆるくする？」と話せればそれでOK。
+        </div>
+      </section>
+    </div>
+
+      <!-- 右：一称くんの「今月やってみたいこと」 -->
+      <section class="card">
+        <div class="card-header">
+          <h2 class="card-title">一称の「今月やってみたいこと」シート</h2>
+          <div class="card-tag">for child</div>
+        </div>
+        <p class="card-note">
+          親がやっていることの、小さいバージョン。一称と一緒に、「やってみたいこと」と「できたこと」をゆるく振り返るためのミニシート。
+        </p>
+
+        <div class="field-label">今月やってみたいこと（1つ）</div>
+        <textarea class="textarea" placeholder="一称と一緒に、「今月これができたら嬉しいこと」を1つだけ決める。"></textarea>
+
+        <div class="field-label">どうやってやる？（具体的な行動）</div>
+        <textarea class="textarea" placeholder="一称の言葉を聞きながら、親が「こうしてみる？」と具体的な行動に言い換えてあげる。"></textarea>
+
+        <div class="field-label">できたこと・がんばったこと</div>
+        <textarea class="textarea" placeholder="月末に、一緒に1〜3個だけ書き出す。「全部できたか」より、「どこを頑張ったか」を見る。"></textarea>
+
+        <div class="field-label">パパ・ママからほめたいこと</div>
+        <textarea class="textarea" placeholder="一称に伝えたい「ここがすごかったよ」という一言を、毎月1つ書いておく。"></textarea>
+
+        <div class="highlight-box">
+          これは「毎日やる宿題」ではなく、月1回の家族サミットのときにまとめて振り返るためのメモ。  
+          うまくいかなかったところは「失敗」ではなく、「来年の見直しポイント」として扱う。
+        </div>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      function toNumber(value) {
+        var n = parseFloat(value);
+        return isNaN(n) ? 0 : n;
+      }
+
+      function sum(groupName) {
+        var inputs = document.querySelectorAll('input[data-group="' + groupName + '"]');
+        var total = 0;
+        inputs.forEach(function (input) {
+          total += toNumber(input.value);
+        });
+        return total;
+      }
+
+      function formatValue(n) {
+        return n.toFixed(1).replace(/\.0$/, "");
+      }
+
+      function recalc() {
+        var income = sum("income");
+        var fixed = sum("fixed");
+        var variable = sum("variable");
+        var savingInvest = sum("savingInvest");
+        var remainder = income - fixed - variable - savingInvest;
+
+        var map = {
+          income: income,
+          fixed: fixed,
+          variable: variable,
+          savingInvest: savingInvest,
+          incomeSummary: income,
+          fixedSummary: fixed,
+          variableSummary: variable,
+          savingInvestSummary: savingInvest,
+          remainder: remainder
+        };
+
+        Object.keys(map).forEach(function (key) {
+          var span = document.querySelector('span[data-total="' + key + '"]');
+          if (span) {
+            span.textContent = formatValue(map[key]);
+          }
+        });
+      }
+
+      document.addEventListener("input", function (e) {
+        if (e.target.matches('input[data-group]')) {
+          recalc();
+        }
+      });
+
+      recalc();
+    })();
+  </script>
+</body>
+</html>
